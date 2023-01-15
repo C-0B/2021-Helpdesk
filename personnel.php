@@ -55,10 +55,15 @@ include("components/header.php");
                             // Queries the database for personnel
                             // Left outer join adds the availability column for rows that have a value in the availability table
                             $query = "SELECT `personnel`.*, `availability`.availability FROM `personnel` LEFT OUTER JOIN `availability` ON `personnel`.id = `availability`.id";
-                            $result = $conn->query($query);
+                            // $result = $conn->query($query);
 
                             // Loops through the results and displays each person
-                            while ($person = $result->fetch_assoc()) {
+
+                            //Create an array of personnel
+                            // With a phone numebr, email address, job title, branch location, user role and availability
+
+                            // For loop through the array of personnel
+                            foreach($personnel as $person){
                                 echo '<tr class="filter-item">
                                     <td class="text-gray-900">
                                         <div class="flex align-center">                   
@@ -72,19 +77,48 @@ include("components/header.php");
                                             </svg>
                                             <div class="name" style="margin-left: 1.5rem">
                                             ' . (strToLower($_SESSION["username"]) === "admin" ? '<a href="employee.php?id=' . $person["id"] . '" class="text-primary-600">' . $person["first_name"] . " " . $person["last_name"] . '</a>' : $person["name"]) . '
-                                            <span>ID: ' . $person["id"] . '</span></div>
+                                            <span>ID: ' . $person["id"] . '</span>
+                                            </div>
                                         </div>
                                     </td>
                                     <td>' . $person["phone_number"] . '</td>
                                     <td>' . $person["email_address"] . '</td>
                                     <td>' . $person["job_title"] . '<span>in ' . $person["department"] . '</span></td>
-                                    <td>' . $person["branch_country"] . '<span>' . $person["branch_postcode"] . '</span></td>
+                                    <td>' . $person["branch_location"] . ', ' . $person["branch_country"] . '<span>' . $person["branch_postcode"] . '</span></td>
                                     <td>' . $person["user_role"] . '</td>
                                     <td>
                                         <div class="pill">' . (isset($person["availability"]) ? $statuses[$person["availability"]] : '-') . '</div>
                                     </td>
                                 </tr>';
                             }
+
+                            // while ($person = $result->fetch_assoc()) {
+                            //     echo '<tr class="filter-item">
+                            //         <td class="text-gray-900">
+                            //             <div class="flex align-center">                   
+                            //                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 184.9 184.9" width="2rem" height="2rem">
+                            //                     <style type="text/css">  
+                            //                         .st0{fill:#d2d6dc;}
+                            //                         .st1{fill:#f4f5f7;}
+                            //                         .st2{fill:#d2d6dc;}
+                            //                     </style>
+                            //                     <circle class="st0" cx="92.5" cy="92.5" r="92.5"/><path class="st1" d="M92.5 109.4c31.2 0 59.1 12.9 77.7 33.3 9.4-14.4 14.8-31.7 14.8-50.2C184.9 41.4 143.5 0 92.5 0 41.4 0 0 41.4 0 92.5c0 18.5 5.4 35.7 14.8 50.2C33.4 122.3 61.3 109.4 92.5 109.4z"/><circle class="st2" cx="92.5" cy="63.5" r="31.8"/>
+                            //                 </svg>
+                            //                 <div class="name" style="margin-left: 1.5rem">
+                            //                 ' . (strToLower($_SESSION["username"]) === "admin" ? '<a href="employee.php?id=' . $person["id"] . '" class="text-primary-600">' . $person["first_name"] . " " . $person["last_name"] . '</a>' : $person["name"]) . '
+                            //                 <span>ID: ' . $person["id"] . '</span></div>
+                            //             </div>
+                            //         </td>
+                            //         <td>' . $person["phone_number"] . '</td>
+                            //         <td>' . $person["email_address"] . '</td>
+                            //         <td>' . $person["job_title"] . '<span>in ' . $person["department"] . '</span></td>
+                            //         <td>' . $person["branch_country"] . '<span>' . $person["branch_postcode"] . '</span></td>
+                            //         <td>' . $person["user_role"] . '</td>
+                            //         <td>
+                            //             <div class="pill">' . (isset($person["availability"]) ? $statuses[$person["availability"]] : '-') . '</div>
+                            //         </td>
+                            //     </tr>';
+                            // }
                             ?>
                         </tbody>
                     </table>

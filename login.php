@@ -1,6 +1,7 @@
 <?php
 session_start();
 
+
 if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
     header("location: index.php");
     exit;
@@ -8,6 +9,7 @@ if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
 
 $username = $password = $err = "";
 $users = ["operator", "specialist", "admin", "analyst"];
+
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
@@ -22,6 +24,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         $password = trim($_POST["password"]);
     }
+    $_SESSION["loggedin"] = true;
+$_SESSION["username"] = $username;
+
 
     if (in_array(strtolower($username), $users)) {
         if ($password == "password") {
